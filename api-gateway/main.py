@@ -9,7 +9,7 @@ client = Client('http://127.0.0.1:5000/biblioteca?wsdl')
 
 @app.get('/book')
 def get_all_biblioteca_service():
-    livros: list = client.service.listarLivros()
+    livros: list = sorted(client.service.listarLivros())
 
     return jsonify(livros)
 
