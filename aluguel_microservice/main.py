@@ -47,7 +47,9 @@ def post_aluguel_de_livros():
 
         alugueis.append(aluguel)
 
-        return aluguel
+        alugueis_ordenados = sorted(alugueis)
+
+        return alugueis_ordenados
 
     return {'mensagem': 'Livro não existe'}
 
