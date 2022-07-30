@@ -12,9 +12,18 @@ def create_aluguel(cliente: str, livro: str):
     return {'cliente': cliente, 'livro': livro}
 
 
+def livro_was_rented(livro: str):
+    filtered = list(filter(
+        lambda aluguel: aluguel['livro'] == livro, alugueis))
+
+    if len(filtered) > 0:
+        return True
+
+    return False
+
+
 def livro_exists(livro: str):
     livros: list = requests.get(f"{BASE_URL}/book").json()
-    print(livros)
 
     try:
         livros.index({'nome': livro})
@@ -40,9 +49,13 @@ def post_aluguel_de_livros():
     livro = request.json['livro']
     cliente = request.json['nome']
 
-    # If livro is rented
+    if livro_was_rented(livro):
+        return {'mensagem': 'Livro alugado'}
 
-    if livro_exists(livro) and aluguel_size_existent(cliente) < 2:
+    if aluguel_size_existent(cliente) > 2:
+        return {'mensagem': 'Número máximo de alugueis atingido'}
+
+    if livro_exists(livro):
         aluguel = create_aluguel(cliente, livro)
 
         alugueis.append(aluguel)
