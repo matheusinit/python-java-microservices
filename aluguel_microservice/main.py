@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from operator import itemgetter, attrgetter
 import requests
 
 BASE_URL = "http://localhost:5001"
@@ -47,7 +48,7 @@ def post_aluguel_de_livros():
 
         alugueis.append(aluguel)
 
-        alugueis_ordenados = sorted(alugueis)
+        alugueis_ordenados = sorted(alugueis, key=itemgetter(1))
 
         return alugueis_ordenados
 
