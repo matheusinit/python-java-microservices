@@ -44,7 +44,7 @@ def get_aluguel_de_livros():
     return jsonify(alugueis)
 
 
-@ app.post('/rent')
+@app.post('/rent')
 def post_aluguel_de_livros():
     livro = request.json['livro']
     cliente = request.json['nome']
@@ -52,7 +52,7 @@ def post_aluguel_de_livros():
     if livro_was_rented(livro):
         return {'mensagem': 'Livro alugado'}
 
-    if aluguel_size_existent(cliente) > 2:
+    if aluguel_size_existent(cliente) > 1:
         return {'mensagem': 'Número máximo de alugueis atingido'}
 
     if livro_exists(livro):

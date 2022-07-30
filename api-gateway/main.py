@@ -1,6 +1,9 @@
 from zeep import Client
 from flask import Flask, jsonify, request
+import requests
 
+
+ALUGUEL_MICROSERVICE = 'http://localhost:5002'
 
 app = Flask(__name__)
 
@@ -38,3 +41,26 @@ def atualizar_biblioteca_service():
     livro = client.service.atualizarLivro(bookToUpdate, update)
 
     return jsonify({'nome': livro})
+
+
+@app.get('/rent')
+def get_rents():
+    rents = requests.get(f'{ALUGUEL_MICROSERVICE}/rent').json()
+    return jsonify(rents)
+
+
+@app.post('/rent')
+def post_rent():
+    livro = request.json['nome']
+    cliente = request.json['cliente']
+
+    response = requests.post(f"{ALUGUEL_MICROSERVICE}/rent", json={
+        'livro': livro,
+        'nome': cliente}
+    )
+
+    return response.content
+
+
+if __name__ == '__main__':
+    app.run(port=5001)
