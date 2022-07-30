@@ -14,7 +14,6 @@ def get_all_biblioteca_service():
     livros: list = client.service.listarLivros()
 
     for livro in livros:
-        print(livro)
         list.append({'nome': livro['nome']})
 
     return jsonify(list)
